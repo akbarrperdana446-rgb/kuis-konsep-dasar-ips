@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif Konsep Dasar IPS (150 Soal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 4px;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-200">
+
+    <!-- Header / Topbar Navigation -->
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-30 shadow-sm transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md shadow-indigo-200 dark:shadow-none">
+                    <i data-lucide="book-open" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-slate-900 dark:text-white text-base sm:text-lg leading-tight">Konsep Dasar IPS</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">150 Soal Bank Pertanyaan & Kunci</p>
+                </div>
+            </div>
+
+            <!-- Quiz Timer & Navigation Controls (Hidden in Start & Result Screen) -->
+            <div id="header-quiz-controls" class="hidden flex items-center gap-3 sm:gap-4">
+                <!-- Timer Display -->
+                <div id="timer-badge" class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded-xl font-mono text-sm font-bold border border-slate-200 dark:border-slate-600">
+                    <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i>
+                    <span id="timer-display">--:--</span>
+                </div>
+
+                <!-- Grid Drawer Trigger -->
+                <button id="toggle-grid-btn" onclick="toggleDrawer()" class="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    <i data-lucide="grid" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Navigasi</span>
+                    <span id="answered-badge" class="bg-indigo-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">0/150</span>
+                </button>
+
+                <!-- Finish Early Button -->
+                <button onclick="confirmFinishQuiz()" class="flex items-center gap-1 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Selesai</span>
+                </button>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <button id="theme-toggle" onclick="toggleTheme()" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 transition">
+                <i data-lucide="moon" id="theme-icon-moon" class="w-5 h-5"></i>
+                <i data-lucide="sun" id="theme-icon-sun" class="w-5 h-5 hidden"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 flex-grow flex flex-col justify-center">
+
+        <!-- 1. START SCREEN -->
+        <div id="start-screen" class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none max-w-2xl mx-auto text-center animate-fade-in w-full">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <i data-lucide="graduation-cap" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+            </div>
+            
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-3">Kuis Konsep Dasar IPS</h2>
+            <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mb-8 leading-relaxed max-w-lg mx-auto">
+                Uji kemampuan dan penguasaan materi Konsep Dasar IPS (150 Soal Pilihan Ganda). Lengkap dengan pemeriksaan jawaban dan analisis statistik nilai akhir.
+            </p>
+
+            <div class="space-y-4 mb-8 text-left">
+                <!-- Option: Timer -->
+                <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                        <i data-lucide="timer" class="w-4 h-4 text-indigo-500"></i> Pengaturan Timer:
+                    </label>
+                    <select id="timer-option" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-100 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="none">Tanpa Batas Waktu</option>
+                        <option value="60">60 Menit</option>
+                        <option value="90" selected>90 Menit (Direkomendasikan)</option>
+                        <option value="120">120 Menit</option>
+                    </select>
+                </div>
+
+                <!-- Option: Randomize -->
+                <div class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <label class="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                        <i data-lucide="shuffle" class="w-4 h-4 text-indigo-500"></i> Urutan Soal:
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center gap-2 bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-600 cursor-pointer text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">
+                            <input type="radio" name="shuffle-opt" value="false" checked class="text-indigo-600 focus:ring-indigo-500">
+                            <span>Berurutan (1-150)</span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-600 cursor-pointer text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">
+                            <input type="radio" name="shuffle-opt" value="true" class="text-indigo-600 focus:ring-indigo-500">
+                            <span>Acak Soal</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg shadow-indigo-200 dark:shadow-none transition flex items-center justify-center gap-2 text-base">
+                <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                <span>Mulai Kuis Sekarang</span>
+            </button>
+        </div>
+
+        <!-- 2. QUIZ SCREEN -->
+        <div id="quiz-screen" class="hidden flex-col animate-fade-in my-auto">
+            
+            <!-- Progress Bar -->
+            <div class="mb-4">
+                <div class="flex justify-between items-center mb-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    <span>Soal <span id="current-q-num">1</span> dari 150</span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                    <div id="progress-bar-inner" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none mb-6">
+                <!-- Question Header -->
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900">
+                        <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                        <span>Pertanyaan Nomor <span id="q-card-num">1</span></span>
+                    </span>
+                    <button id="flag-btn" onclick="toggleFlag()" class="text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 transition" title="Tandai Soal Ragu-Ragu">
+                        <i data-lucide="bookmark" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Question Text -->
+                <h3 id="question-text" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-relaxed mb-6">
+                    -- Pertanyaan akan muncul di sini --
+                </h3>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Options populated via JS -->
+                </div>
+
+                <!-- Explanation Box (Appears when Check Answer clicked) -->
+                <div id="explanation-box" class="hidden mt-6 p-4 rounded-2xl border transition-all animate-fade-in">
+                    <div class="flex items-center gap-2 font-bold text-sm mb-1" id="exp-title">
+                        <i id="exp-icon" class="w-4 h-4"></i>
+                        <span id="exp-status-text">--</span>
+                    </div>
+                    <p id="exp-body" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Quiz Action Buttons -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <button id="prev-btn" onclick="prevQuestion()" class="flex items-center gap-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold px-4 py-2.5 rounded-2xl text-xs sm:text-sm transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Sebelumnya</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <button id="check-ans-btn" onclick="checkCurrentAnswer()" class="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2.5 rounded-2xl text-xs sm:text-sm shadow-md shadow-amber-200 dark:shadow-none transition">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                        <span>Cek Jawaban</span>
+                    </button>
+
+                    <button id="next-btn" onclick="nextQuestion()" class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-2xl text-xs sm:text-sm shadow-md shadow-indigo-200 dark:shadow-none transition">
+                        <span>Selanjutnya</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. RESULT SCREEN -->
+        <div id="result-screen" class="hidden flex-col animate-fade-in my-auto">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none text-center">
+                
+                <!-- Status Icon Header -->
+                <div id="result-badge-container" class="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                    <i id="result-status-icon" class="w-10 h-10"></i>
+                </div>
+
+                <h2 id="result-status-title" class="text-2xl sm:text-3xl font-extrabold mb-1">--</h2>
+                <p id="result-status-subtitle" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6">Hasil Pengerjaan Kuis IPS Anda</p>
+
+                <!-- Score Big Display -->
+                <div class="bg-slate-50 dark:bg-slate-700/40 rounded-2xl p-6 border border-slate-200 dark:border-slate-700/60 max-w-sm mx-auto mb-8">
+                    <div class="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider mb-1">Skor Akhir</div>
+                    <div class="text-4xl sm:text-5xl font-black text-indigo-600 dark:text-indigo-400" id="final-score">0</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-2" id="passing-note">Batas Kelulusan: 70%</div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left mb-8">
+                    <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 p-3.5 rounded-2xl">
+                        <div class="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 text-xs font-semibold mb-1">
+                            <i data-lucide="check" class="w-4 h-4"></i> Benar
+                        </div>
+                        <div class="text-xl font-bold text-emerald-800 dark:text-emerald-200" id="stat-correct">0</div>
+                    </div>
+
+                    <div class="bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/50 p-3.5 rounded-2xl">
+                        <div class="flex items-center gap-1.5 text-rose-700 dark:text-rose-400 text-xs font-semibold mb-1">
+                            <i data-lucide="x" class="w-4 h-4"></i> Salah
+                        </div>
+                        <div class="text-xl font-bold text-rose-800 dark:text-rose-200" id="stat-wrong">0</div>
+                    </div>
+
+                    <div class="bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 p-3.5 rounded-2xl">
+                        <div class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 text-xs font-semibold mb-1">
+                            <i data-lucide="minus-circle" class="w-4 h-4"></i> Kosong
+                        </div>
+                        <div class="text-xl font-bold text-slate-800 dark:text-slate-200" id="stat-unanswered">0</div>
+                    </div>
+
+                    <div class="bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/50 p-3.5 rounded-2xl">
+                        <div class="flex items-center gap-1.5 text-indigo-700 dark:text-indigo-400 text-xs font-semibold mb-1">
+                            <i data-lucide="clock" class="w-4 h-4"></i> Waktu
+                        </div>
+                        <div class="text-sm font-bold text-indigo-900 dark:text-indigo-200" id="stat-time">00:00</div>
+                    </div>
+                </div>
+
+                <!-- Result Actions -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button onclick="resetQuiz()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-2xl transition flex items-center justify-center gap-2 text-sm shadow-md shadow-indigo-200 dark:shadow-none">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        <span>Kerjakan Ulang Kuis</span>
+                    </button>
+                    <button onclick="toggleReviewSection()" class="flex-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold py-3 px-4 rounded-2xl transition flex items-center justify-center gap-2 text-sm">
+                        <i data-lucide="list-checks" class="w-4 h-4"></i>
+                        <span>Tinjau Pembahasan</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Section -->
+            <div id="review-section" class="hidden mt-8 space-y-4 animate-fade-in">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i data-lucide="file-search" class="w-5 h-5 text-indigo-500"></i> Review Seluruh Jawaban Soal (150)
+                </h3>
+                <div id="review-list-container" class="space-y-4">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-xs text-slate-400 dark:text-slate-500 border-t border-slate-200/60 dark:border-slate-800">
+        Kuis Interaktif Konsep Dasar IPS &copy; 2026 - Dilengkapi 150 Soal Evaluasi Pembelajaran
+    </footer>
+
+    <!-- GRID NAVIGATION DRAWER MODAL -->
+    <div id="grid-drawer" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex justify-end">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md h-full shadow-2xl p-6 flex flex-col justify-between animate-fade-in">
+            <div>
+                <div class="flex items-center justify-between mb-4 border-b border-slate-200 dark:border-slate-700 pb-3">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-base">Navigasi Nomor Soal</h3>
+                    </div>
+                    <button onclick="toggleDrawer()" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Legend -->
+                <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                    <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 inline-block"></span> Belum Diisi</div>
+                    <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-indigo-600 inline-block"></span> Terjawab</div>
+                    <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Cek Benar</div>
+                    <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Cek Salah</div>
+                </div>
+
+                <!-- Grid Numbers -->
+                <div id="grid-numbers-container" class="grid grid-cols-6 gap-2 max-h-[60vh] overflow-y-auto pr-1 custom-scrollbar">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <button onclick="toggleDrawer()" class="mt-4 w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-sm transition">
+                Tutup Navigasi
+            </button>
+        </div>
+    </div>
+
+    <!-- AUDIO EFFECTS (Web Audio API) -->
+    <script>
+        // Web Audio API Sound generator
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15); // E5
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'wrong') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.setValueAtTime(174.61, now + 0.1); // F3
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            }
+        }
+    </script>
+
+    <!-- DATA SOAL 1-150 & LOGIKA KUIS -->
+    <script>
+        // Data 150 Soal IPS Lengkap dari Dokumen
+        const originalQuizData = [
+            { id: 1, q: "Studi sosial tidak selalu bertaraf universiter, bahkan dapat merupakan bahan-bahan pelajaran bagi murid-murid sejak pendidikan dasar, dan dapat berfungsi sebagai pengantar bagi lanjutan disiplin-disiplin Ilmu Sosial. Pernyataan tersebut merupakan pendapat dari", options: ["Cheppy", "Achmad Sanusi", "Nu'man Somantri", "Somadi Djahiri"], ans: "B", exp: "Achmad Sanusi menyatakan bahwa studi sosial berfungsi sebagai pengantar disiplin ilmu sosial sejak tingkat sekolah dasar." },
+            { id: 2, q: "Istilah Ilmu Pengetahuan Sosial (IPS) dan keberadaannya dalam kurikulum persekolahan di Indonesia tidak lepas dari perkembangan dan keberadaan social studies (studi sosial) di", options: ["Amerika Serikat", "Belanda", "Australia", "Inggris"], ans: "A", exp: "Perkembangan IPS di Indonesia mengacu pada konsep Social Studies yang pertama kali berkembang di Amerika Serikat." },
+            { id: 3, q: "Istilah Ilmu Pengetahuan Sosial (IPS) dan keberadaannya dalam kurikulum persekolahan di Indonesia merupakan", options: ["social culture (budaya sosial)", "social sciences (ilmu sosial)", "social behavior (sikap sosial)", "personal interest (kepentingan pribadi)"], ans: "B", exp: "IPS dalam kurikulum merupakan terjemahan dan adaptasi dari disiplin social sciences (ilmu-ilmu sosial)." },
+            { id: 4, q: "Ilmu Pengetahuan Sosial (IPS) bukan merupakan suatu bidang keilmuan atau disiplin bidang akademis, melainkan lebih merupakan suatu bidang pengkajian tentang", options: ["perpaduan antara Antropologi dan Sosiologi", "gejala dan masalah sosial", "budaya dan bangsa", "Sejarah dan Antropologi"], ans: "B", exp: "IPS pada hakikatnya memfokuskan diri pada pengkajian gejala dan masalah sosial di masyarakat." },
+            { id: 5, q: "Berikut ini merupakan pernyataan yang benar berkaitan dengan perbedaan antara Ilmu Pengetahuan Sosial (IPS) sebagai bidang studi dengan disiplin Ilmu-ilmu Sosial (Social Sciences), yaitu", options: ["IPS itu merupakan suatu disiplin ilmu seperti halnya Ilmu Sosial", "pendekatan yang dilakukan dalam IPS menggunakan pendekatan monodisiplin", "IPS sengaja dirancang Ilmu Sosial keberadaannya bisa di dunia persekolahan, perguruan tinggi atau dipelajari di masyarakat umum sekalipun", "IPS di samping menggunakan Ilmu-ilmu Sosial sebagai bahan pengembangan materi pembelajaran dilengkapi dengan mempertimbangkan aspek psikologis-pedagogis"], ans: "D", exp: "Perbedaan utama IPS adalah penyesuaian materi dengan pertimbangan aspek psikologis dan pedagogis siswa." },
+            { id: 6, q: "Berikut ini merupakan perbedaan antara Ilmu Pengetahuan Sosial (IPS) sebagai bidang studi dengan disiplin Ilmu-ilmu Sosial (Social Sciences) antara lain, KECUALI", options: ["IPS itu bukanlah suatu disiplin ilmu seperti halnya Ilmu Sosial, tetapi IPS lebih tepat dilihat sebagai bidang kajian", "pendekatan IPS menggunakan pendekatan multidisiplin atau interdisiplin", "IPS sengaja dirancang untuk kepentingan kependidikan di dunia persekolahan", "IPS tidak perlu atau tidak selalu menggunakan Ilmu-ilmu Sosial sebagai bahan pengembangan materi pembelajaran dilengkapi dengan mempertimbangkan aspek psikologis-pedagogis"], ans: "D", exp: "Pernyataan D salah karena IPS HARUS tetap menggunakan bahan dari ilmu-ilmu sosial." },
+            { id: 7, q: "Nilai edukatif yang hendak dikembangkan dalam pembelajaran IPS adalah menyiapkan anak didik agar mampu menyadari bahwa kehidupan itu penuh dengan masalah, tantangan, dan persaingan. Nilai-nilai yang demikian termasuk dalam aspek", options: ["kognitif", "afektif", "filosofis", "psikomotorik"], ans: "C", exp: "Menyadari hakikat kehidupan yang penuh masalah dan tantangan termasuk dalam aspek nilai filosofis." },
+            { id: 8, q: "Setelah liburan panjang ada perasaan rindu dengan teman di sekolah, hakikatnya merupakan ungkapan dorongan aspek", options: ["politik", "ekonomi", "geografi", "hubungan sosial"], ans: "D", exp: "Perasaan rindu berinteraksi dengan teman merupakan bentuk dorongan aspek hubungan sosial." },
+            { id: 9, q: "Kehidupan sosial manusia di masyarakat dijiwai oleh aspek ekonomi, hal ini tercermin pada perilaku manusia dalam", options: ["mengembangkan pikirannya untuk memecahkan masalah yang dihadapi", "melakukan pendekatan dengan manusia lain", "berupaya memenuhi tuntutan hidup dengan mencari rejeki", "menciptakan kehidupan yang tertib, aman, dan sejahtera"], ans: "C", exp: "Aspek ekonomi berkaitan langsung dengan pemenuhan kebutuhan hidup dan pencarian nafkah." },
+            { id: 10, q: "IPS sebagai program pendidikan, membina dan menanamkan: (1) nilai dan sikap, (2) kemampuan berpikir kritis, (3) kemampuan olah fisik. Kombinasi yang benar adalah", options: ["1 dan 2 benar", "1 dan 3 benar", "2 dan 3 benar", "Semua benar"], ans: "A", exp: "IPS membina nilai, sikap, dan kemampuan berpikir kritis. Olah fisik merupakan domain penjas/olahraga." },
+            { id: 11, q: "Salah satu fungsi pendidikan IPS di sekolah membekali peserta didik dengan pengetahuan yang berguna, yaitu pengetahuan sosial yang bermanfaat untuk", options: ["Merencanakan pembangunan masyarakat", "Menyadari hak dan kewajiban sehari-hari selaku warga negara", "Membuat karya tulis di berbagai media pemberitaan", "Merencanakan penelitian berkenaan dengan masalah sosial di masyarakat"], ans: "B", exp: "Fungsi utama IPS di sekolah adalah membekali peserta didik agar menyadari hak dan kewajiban sebagai warga negara." },
+            { id: 12, q: "Tingkat ilmu pengetahuan dan teknologi berkembang sesuai dengan perubahan waktu, merupakan konsep dasar", options: ["Sosiologi", "Geografi", "Politik", "Sejarah"], ans: "D", exp: "Perubahan dan perkembangan yang terikat dengan dimensi waktu merupakan konsep utama ilmu Sejarah." },
+            { id: 13, q: "Pada tahun 1800-an di Amerika Serikat konsep Social Studies secara umum berkembang secara evolusioner, yang kemudian tahun 1900-an mengkristal menjadi domain pengkajian", options: ["administratif", "akademik", "inovatif", "evaluatif"], ans: "B", exp: "Pada abad ke-20 (1900-an), Social Studies memadat dan mengkristal menjadi domain pengkajian akademik." },
+            { id: 14, q: "Pemikiran mengenai social studies yang sebelumnya dilanda ketidakmenentuan, secara konseptual dapat diatasi dalam epistemologi disiplin pendidikan social studies pada era", options: ["1940an", "1960an", "1980an", "2000an"], ans: "C", exp: "Kemajuan konsolidasi epistemologi Social Studies terjadi secara masif pada era 1980-an." },
+            { id: 15, q: "NCSS mendapat serangan yang berkisar pada pertanyaan harus tidaknya social studies menanamkan nilai dan sikap demokratis kepada para pemuda, terjadi di era", options: ["1940an", "1960an", "1980an", "2000an"], ans: "A", exp: "Perdebatan dan kritik keras terhadap NCSS mengenai penanaman nilai demokrasi marak terjadi pada era 1940-an." },
+            { id: 16, q: "Definisi social studies sebagai sistem pengetahuan terpadu dengan misi utama pendidikan kewarganegaraan demokratis dikemukakan oleh", options: ["Edgar Bruce Wesley", "Barr, Barth, dan Shermis", "John Dewey", "Engle"], ans: "B", exp: "Barr, Barth, dan Shermis merumuskan 3 tradisi utama dan definisi terpadu social studies." },
+            { id: 17, q: "Jika dilihat dari definisi dan tujuan social studies pada dasawarsa 1980-an terkandung hal-hal sebagai berikut, KECUALI", options: ["social studies merupakan mata pelajaran dasar di seluruh jenjang persekolahan", "tujuan utama ialah mengembangkan siswa menjadi warga negara demokratis", "konten pelajarannya digali dan diseleksi dari ilmu-ilmu alam dan matematika", "pembelajarannya menggunakan cara-cara yang mencerminkan kesadaran pribadi dan masyarakat"], ans: "C", exp: "Konten Social Studies digali dari ilmu sosial dan humaniora, bukan ilmu alam & matematika." },
+            { id: 18, q: "Hasil penelitian yang memberi indikasi perlunya perubahan pembelajaran social studies ke arah integrated, reflective inquiry, and problem centered dipelopori oleh", options: ["Welton dan Mallan", "Barr, dan kawan-kawan", "J. L. Tildsley", "Edgar B. Wesley"], ans: "B", exp: "Studi dan laporan Barr et al. menunjukkan kelemahan model ekspositori dan mendorong inkuiri reflektif." },
+            { id: 19, q: "Di dalam kurikulum 1975 pendidikan IPS menampilkan beberapa profil, sebagai berikut, KECUALI", options: ["Pancasila menggantikan Kewargaan Negara", "Pendidikan IPS terpadu untuk Sekolah Dasar", "Pendidikan IPS terkonfederasi untuk SMP", "Pendidikan IPS tidak terpisah-pisah yang mencakup mata pelajaran sejarah, geografi, dan ekonomi untuk SMA"], ans: "D", exp: "Pada Kurikulum 1975 tingkat SMA, IPS diajarkan secara TERPISAH-PISAH (disiplin tersendiri)." },
+            { id: 20, q: "Dalam Kurikulum Proyek Perintis Sekolah Pembangunan (PPSP), konsep pendidikan IPS diwujudkan dalam 3 bentuk, KECUALI", options: ["pendidikan IPS terintegrasi dengan nama PKn/Studi Sosial", "pendidikan IPS terpisah sebagai konsep payung", "pendidikan kewargaan negara khusus (citizenship transmission)", "pendidikan IPS terpadu untuk Sekolah Dasar"], ans: "D", exp: "PPSP tidak menggunakan istilah 'IPS terpadu untuk Sekolah Dasar' secara khusus dalam struktur kategorisasinya." },
+            { id: 21, q: "Menurut Barr dkk., salah satu bentuk pendidikan IPS adalah Pendidikan Kewargaan Negara khusus, yang dalam tradisi social studies termasuk", options: ["citizenship transmission", "civic education", "teaching social studies", "integrated knowledge system"], ans: "A", exp: "Citizenship Transmission adalah tradisi penyampaian nilai kewarganegaraan." },
+            { id: 22, q: "Istilah IPS pertama kali muncul dalam seminar nasional Civic Education tahun 1972 di Tawangmangu. Istilah ini mencakup hal berikut, KECUALI", options: ["pengetahuan sosial", "studi sosial", "ilmu pengetahuan sosial", "sejarah"], ans: "D", exp: "Tiga istilah awal yang dimunculkan adalah Pengetahuan Sosial, Studi Sosial, dan Ilmu Pengetahuan Sosial." },
+            { id: 23, q: "Penegasan kedudukan PIPS sebagai integrated system of knowledge dalam 'Position Paper' NCSS merupakan pandangan dari", options: ["Numan Somantri", "Kosasih Djahiri", "Achmad Sanusi", "Hartoonian"], ans: "D", exp: "Hartoonian menekankan kedudukan IPS sebagai sistem pengetahuan terpadu." },
+            { id: 24, q: "Dalam UU No. 2/1989 tentang USPN, cakupan pendidikan IPS muncul dalam dua bahan kajian kurikuler yaitu", options: ["Pendidikan Pancasila dan Pendidikan Kewarganegaraan", "sejarah, ekonomi, dan geografi", "sosiologi dan tata negara", "antropologi dan geografi"], ans: "A", exp: "UU No 2/1989 memuat bahan kajian Pendidikan Pancasila dan Pendidikan Kewarganegaraan." },
+            { id: 25, q: "IPS sebenarnya bukan merupakan bidang keilmuan akademis murni, namun IPS lebih merupakan sebagai bidang", options: ["ilmu yang dikembangkan secara akademis", "kajian tentang gejala dan masalah teknologi", "kajian tentang gejala dan masalah sosial", "kajian yang dikembangkan untuk kepentingan ilmu"], ans: "C", exp: "IPS difokuskan sebagai bidang kajian praktis-pedagogis terhadap gejala & masalah sosial." },
+            { id: 26, q: "Fokus utama IPS sebagai penyederhanaan dari ilmu-ilmu sosial diarahkan untuk", options: ["kajian tentang gejala masalah teknologi", "kajian tentang gejala dan masalah sosial", "ilmu yang dikembangkan secara akademis", "kajian yang dikembangkan kepentingan ilmu"], ans: "B", exp: "Kajian gejala dan masalah sosial merupakan inti materi IPS." },
+            { id: 27, q: "Ilmu Pengetahuan Sosial sebagai bidang studi pada tingkat persekolahan identik dengan istilah internasional yaitu", options: ["psikologi sosial", "sosiologi", "studi sosial (social studies)", "antropologi sosial"], ans: "C", exp: "IPS adalah padanan istilah dari Social Studies." },
+            { id: 28, q: "Konsep-konsep dasar merupakan cakupan materi IPS, sedangkan ilmu-ilmu sosial berfungsi sebagai", options: ["salah satu sumber dari pengembangan materi IPS", "beberapa sumber dari pengembangan materi IPS", "bidang kajian ilmu untuk ilmu", "bidang kajian untuk pengetahuan"], ans: "A", exp: "Ilmu-ilmu sosial adalah sumber utama penarikan materi pembelajaran IPS." },
+            { id: 29, q: "Pendekatan yang digunakan studi sosial bersifat interdisipliner atau multidisipliner dengan menggunakan", options: ["berbagai metode", "berbagai bidang keilmuan", "rumpun bidang keilmuan", "perpaduan bidang keilmuan tertentu"], ans: "B", exp: "Multidisipliner menggabungkan analisis dari berbagai bidang keilmuan sosial." },
+            { id: 30, q: "Pendekatan IPS menggunakan pendekatan multidisiplin, tidak seperti halnya ilmu sosial murni yang menggunakan pendekatan", options: ["interdisiplin", "monodisiplin", "social sciences", "social studies"], ans: "B", exp: "Ilmu sosial murni bekerja secara independen berdasarkan sudut pandang tunggal (monodisiplin)." },
+            { id: 31, q: "Sikap mental wiraswasta pengelola koperasi tercermin dari perilakunya yang mandiri dan", options: ["mengutamakan kepentingan sendiri", "mampu bekerja sama", "mampu mengisolasi diri", "tidak memerlukan bantuan"], ans: "B", exp: "Semangat koperasi berlandaskan pada asas kekeluargaan dan kemampuan bekerja sama." },
+            { id: 32, q: "Henry J. Warman mengemukakan beberapa konsep dasar geografi sebagai berikut, KECUALI", options: ["konsep kewilayahan (regional)", "konsep lapisan kehidupan (biosfer)", "konsep manusia sebagai faktor ekologi sampingan", "konsep globalisme (bumi sebagai planet)"], ans: "C", exp: "Henry J. Warman tidak memasukkan 'manusia sebagai faktor ekologi sampingan' dalam konsep dasarnya." },
+            { id: 33, q: "Intensitas dan bobot interaksi sosial seseorang dalam meningkatkan kemampuan intelektual sangat dipengaruhi oleh", options: ["lamanya interaksi berlangsung", "ukuran besarnya kelompok", "kualitas lingkungan sosial tempat berinteraksi", "usia orang yang bersangkutan"], ans: "C", exp: "Kualitas lingkungan sosial memberikan rangsangan intelektual terbaik bagi perkembangan seseorang." },
+            { id: 34, q: "Ilmu politik adalah proses dilaksanakannya kekuasaan mencapai tujuan-tujuan tertentu, merupakan pandangan dari", options: ["Mildred Parten", "Brown & Brown", "J. Barents", "Ossip K. Flechtheim"], ans: "B", exp: "Brown & Brown mendefinisikan ilmu politik dari sudut pelaksanaan kekuasaan untuk tujuan tertentu." },
+            { id: 35, q: "Pemerintahan adalah organisasi penjelmaan suatu negara dalam penampilan praktiknya, merupakan pendapat dari", options: ["Charles J. Bushnell", "Ossip K. Flechtheim", "J. Barents", "Brown & Brown"], ans: "D", exp: "Definisi pemerintahan sebagai penjelmaan praktis negara dikemukakan oleh Brown & Brown." },
+            { id: 36, q: "Kekuasaan adalah kemampuan seseorang/kelompok untuk mempengaruhi tingkah laku pihak lain sesuai keinginannya. Ini adalah pendapat", options: ["Miriam Budiardjo", "J. Barents", "Brown & Brown", "Charles J. Bushnell"], ans: "A", exp: "Miriam Budiardjo adalah pakar ilmu politik Indonesia yang merumuskan definisi kekuasaan tersebut." },
+            { id: 37, q: "Negara penjajah yang khas dengan politik adu domba (devide et impera) di Nusantara adalah", options: ["Belanda", "Inggris", "Perancis", "Spanyol"], ans: "A", exp: "Belanda terkenal memakai taktik devide et impera untuk memecah belah kerajaan-kerajaan lokal." },
+            { id: 38, q: "Pelaksanaan sistem Tanam Paksa (Cultuurstelsel) dilatarbelakangi oleh peristiwa berikut, KECUALI", options: ["dibubarkannya VOC akhir 1799", "pandangan progresif Belanda memisahkan pemerintahan dan perdagangan", "keinginan menguasai rempah-rempah dan hasil bumi", "upaya meredam perlawanan perang daerah"], ans: "B", exp: "Tanam paksa justru menyatukan kepentingan eksploitasi ekonomi langsung oleh pemerintah." },
+            { id: 39, q: "Kerugian perusahaan pelayaran Belanda (NHM) merupakan salah satu latar belakang timbulnya kebijakan", options: ["tanam paksa", "politik pintu terbuka", "politik melepas untung", "monopoli perdagangan"], ans: "A", exp: "Kerugian kas Belanda dan NHM mendorong Gubernur Jenderal Van den Bosch menerapkan Tanam Paksa." },
+            { id: 40, q: "Karakteristik penjajahan negara ini difokuskan untuk mencari daerah pemasaran hasil industri, yaitu", options: ["Belanda", "Perancis", "Inggris", "Spanyol"], ans: "C", exp: "Revolusi Industri mendorong Inggris fokus pada pencarian pasokan bahan baku dan pasar hasil pabrik." },
+            { id: 41, q: "Faktor pendorong penjelajahan samudra oleh Portugis dan Spanyol meliputi: (1) teori Copernicus, (2) jatuhnya Konstantinopel/kekuasaan Islam, (3) semangat Reconquista. Pernyataan yang benar:", options: ["1 dan 2 benar", "2 dan 3 benar", "1 dan 3 benar", "1, 2, dan 3 benar"], ans: "D", exp: "Ketiga faktor tersebut (ilmu astronomi, penutupan perdagangan pasca jatuhnya Konstantinopel, dan Perang Salib) merupakan pendorong utama." },
+            { id: 42, q: "Dampak Perjanjian Tordesillas 1494 menyebabkan Portugis menguasai wilayah bagian Timur yaitu: (1) Tanjung Harapan, (2) NTB, (3) Maluku. Jawaban yang benar:", options: ["1 dan 2 benar", "1 dan 3 benar", "2 dan 3 benar", "Semua benar"], ans: "B", exp: "Portugis menguasai rute Tanjung Harapan (Afrika) hingga kepulauan rempah-rempah Maluku." },
+            { id: 43, q: "Pengaruh lahirnya pergerakan kedaerahan terhadap kehidupan politik nasional Indonesia adalah", options: ["menghambat persatuan", "menumbuhkan persaingan ketat", "menyadarkan pentingnya bergabung dalam perjuangan bersama", "timbulnya usaha untuk menyatukan semua organisasi kedaerahan"], ans: "D", exp: "Pergerakan kedaerahan memicu kesadaran integrasi hingga melahirkan pemersatu organisasi pemuda." },
+            { id: 44, q: "Semangat persatuan antar organisasi pemuda pertama kali dipelopori pada", options: ["Kongres Pemuda I tahun 1926", "Kongres Pemuda II tahun 1926", "Kongres Pemuda I tahun 1928", "Kongres Pemuda II tahun 1928"], ans: "A", exp: "Kongres Pemuda I (1926) menjadi fondasi awal gagasan persatuan sebelum Sumpah Pemuda 1928." },
+            { id: 45, q: "Organisasi kedaerahan seperti Jong Java dan Jong Sumatranen Bond bersatu pada 1928 memiliki cita-cita utama", options: ["menghidupkan Budi Utomo", "membentuk perhimpunan olah raga", "meneruskan perjuangan PI", "memperjuangkan kemerdekaan Indonesia"], ans: "D", exp: "Puncak persatuan pemuda 1928 ditujukan untuk kemerdekaan Indonesia." },
+            { id: 46, q: "Pada 19 Desember 1961 Presiden Soekarno mencanangkan Trikora di Yogyakarta, salah satu isinya adalah", options: ["gagalkan kemerdekaan Papua", "kibarkan Sang Merah Putih di Irian Barat", "bubarkan Irian Jaya", "berbahasa satu bahasa Indonesia"], ans: "B", exp: "Isi Trikora: Gagalkan negara boneka Papua, Kibarkan Sang Merah Putih di Irian Barat, dan Bersiap untuk mobilisasi umum." },
+            { id: 47, q: "Setelah Dekrit Presiden 5 Juli 1959, perjuangan titik berat pada konsolidasi. SEBAB Periode 1959-1965 lebih diarahkan pada perbaikan sosial-ekonomi.", options: ["Pernyataan benar, alasan benar, berhubungan", "Pernyataan benar, alasan benar, tidak berhubungan", "Pernyataan benar, alasan salah", "Pernyataan dan alasan salah"], ans: "C", exp: "Pernyataan benar, namun alasannya salah karena 1959-1965 lebih dititikberatkan pada konfrontasi politik, bukan perbaikan ekonomi." },
+            { id: 48, q: "Hal-hal yang merugikan bangsa Indonesia setelah Dekrit 5 Juli 1959 adalah sebagai berikut, KECUALI", options: ["hilangnya demokrasi politik", "dikuasainya politik oleh komunis", "stabilnya pemerintahan negara", "tindakan presiden yang tidak konstitusional"], ans: "C", exp: "Pemerintahan justru tidak stabil akibat ketegangan politik dan inflasi ekonomi yang parah." },
+            { id: 49, q: "Gerakan separatis DI/TII memiliki tujuan utama yaitu", options: ["mendirikan negara Islam di Aceh saja", "mendirikan Negara Islam Indonesia dengan syariat Islam", "mendirikan militer tandingan", "memisahkan diri bergabung negara serikat"], ans: "B", exp: "Tujuan Kartosoewirjo dan DI/TII adalah memproklamasikan Negara Islam Indonesia (NII)." },
+            { id: 50, q: "Penumpasan pemberontakan APRA di Bandung dilakukan oleh pasukan TNI gabungan dari wilayah", options: ["Jawa Tengah dan Jawa Barat", "Jawa Tengah dan Jawa Timur", "Jawa Tengah dan Bali", "Jawa Timur dan Jawa Barat"], ans: "B", exp: "Penumpasan APRA melibatkan divisi militer dari Jawa Tengah dan Jawa Timur." },
+            { id: 51, q: "Pemberontakan Angkatan Perang Ratu Adil (APRA) 23 Januari 1950 di Bandung dipimpin oleh", options: ["Sultan Hamid II", "Kapten Raymond Westerling", "Andi Azis", "Ibnu Hajar"], ans: "B", exp: "Raymond Westerling (mantan kapten KNIL) adalah pemimpin lapangan pemberontakan APRA." },
+            { id: 52, q: "Tugas utama pasukan Sekutu (AFNEI) yang datang ke Indonesia setelah Perang Dunia II adalah", options: ["melucuti tentara Jepang yang kalah perang", "melucuti persenjataan pejuang RI", "mengawal tentara Belanda menguasai kembali RI", "membantu pemilu"], ans: "A", exp: "Tugas resmi AFNEI adalah melucuti senjata tentara Jepang dan memulangkan tawanan perang." },
+            { id: 53, q: "Tujuan utama Agresi Militer Belanda I (1947) adalah", options: ["merebut kembali daerah jajahan", "membantu Jepang", "unjuk kekuatan internasional", "melemahkan kekuatan RI untuk menguasai wilayah strategis ekonomi"], ans: "D", exp: "Belanda berusaha merusak perekonomian dan kekuatan militer RI di Jawa dan Sumatra." },
+            { id: 54, q: "Irian Barat secara resmi kembali ke pangkuan Negara Kesatuan Republik Indonesia pada", options: ["18 Agustus 1962", "2 Januari 1962", "1 Mei 1963", "31 Desember 1962"], ans: "C", exp: "PBB (UNTEA) menyerahkan kekuasaan Irian Barat kepada Indonesia pada 1 Mei 1963." },
+            { id: 55, q: "Paham yang menyatakan manusia aktif mengubah bentang alam menjadi bentang budaya mencerminkan geografi sebagai", options: ["ilmu pengetahuan biofisik", "relasi timbal-balik manusia dan alam", "ilmu ekologi manusia", "studi bentang lahan"], ans: "D", exp: "Studi bentang lahan (landscape study) mengkaji perubahan lanskap alamiah oleh aktivitas kebudayaan manusia." },
+            { id: 56, q: "Pandangan bahwa iklim tropis menghambat kemajuan kebudayaan didasarkan pada paham", options: ["evolusionisme", "environmentalisme (fisis determinisme)", "posibilisme", "rasionalisme"], ans: "B", exp: "Fisis determinisme/environmentalisme meyakini lingkungan fisik (iklim/alam) mendikte perkembangan kebudayaan." },
+            { id: 57, q: "Geografi sebagai kajian yang mempelajari hubungan manusia dengan tempat tinggalnya secara interaktif merupakan hakikat geografi sebagai", options: ["ilmu pengetahuan biofisik", "relasi hubungan timbal-balik antara manusia dengan alam", "ilmu ekologi manusia", "studi bentang lahan"], ans: "B", exp: "Pendekatan ini menekankan hubungan interaksi dua arah (timbal-balik) antara manusia dan alam." },
+            { id: 58, q: "Memahami peta, proyeksi, skala, dan interpretasi foto udara merupakan analisis dari", options: ["pola-pola geografi", "materi demografi", "studi demografi", "pendekatan kajian alam"], ans: "A", exp: "Analisis representasi spasial (peta & citra) digunakan untuk mengidentifikasi pola-pola geografi." },
+            { id: 59, q: "Pengelompokan wilayah berdasarkan keseragaman fisik dan budaya (seperti daerah pertanian seragam) termasuk klasifikasi", options: ["uniform region", "nodal region", "generic region", "specific region"], ans: "A", exp: "Uniform/formal region didefinisikan berdasarkan keseragaman atau homogenitas kriteria tertentu." },
+            { id: 60, q: "Keseragaman kriteria iklim, hidrologi, dan budaya dalam penentuan region dalam geografi disebut", options: ["uniform region", "nodal region", "generic region", "specific region"], ans: "A", exp: "Kriteria keseragaman menandai uniform region." },
+            { id: 61, q: "Dalam melakukan analisis pola-pola geografi, hal yang mutlak diperlukan adalah", options: ["analisis SIG semata", "analisis keruangan murni", "proyeksi peta, skala peta, metode statistik dan teknik penilaian", "analisis ekologi murni"], ans: "C", exp: "Alat bantu teknis peta, skala, dan teknik statistik sangat krusial dalam analisis pola geografi." },
+            { id: 62, q: "Pernyataan yang menggambarkan lingkungan tingkah laku (behavioral environment) adalah", options: ["iklim subur untuk pertanian", "tanah vulkanik kaya hara", "pola irigasi yang melimpah", "kepercayaan warga bahwa Gunung Merapi dihuni oleh makhluk halus Empu Romo"], ans: "D", exp: "Lingkungan tingkah laku berkaitan dengan persepsi, kepercayaan, dan budaya masyarakat terhadap alam." },
+            { id: 63, q: "Pendekatan geografi yang paling tepat untuk menganalisis kerja sama perdagangan antarwilayah global adalah", options: ["ekologi", "keruangan", "sistem", "kompleks wilayah"], ans: "D", exp: "Pendekatan kompleks wilayah memadukan analisis keruangan dan ekologi antarwilayah yang saling berinteraksi." },
+            { id: 64, q: "Pengembangan pengetahuan dasar geografi di SD/MI Paket A meliputi", options: ["penginderaan jauh advance", "matematika dan statistik rumit", "analisis pola spasial tinggi", "kemampuan membuat peta, pengelompokan fakta fisik/sosial, dan hubungan manusia-lingkungan"], ans: "D", exp: "Tingkat dasar berfokus pada pemetaan sederhana, pengamatan fakta, dan hubungan dasar manusia-lingkungan." },
+            { id: 65, q: "Berdasarkan Kurikulum Berbasis Kompetensi (KBK), mata pelajaran Geografi di SD/MI terintegrasi dalam", options: ["Ilmu Pengetahuan Sosial", "Ilmu Pengetahuan Alam", "Ilmu Kemasyarakatan", "Pendidikan Kewarganegaraan"], ans: "A", exp: "Geografi di tingkat SD diajarkan sebagai bagian dari mata pelajaran terpadu IPS." },
+            { id: 66, q: "Pengelompokan Negara Maju dan Negara Berkembang didasarkan pada kriteria utama indikator", options: ["kebudayaan", "tingkat kesejahteraan fisik", "fisik dan biologis", "ekonomis dan sosial"], ans: "D", exp: "Kriteria utama klasifikasi negara didasarkan pada indikator ekonomi (pendapatan) dan sosial (HDI/IPM)." },
+            { id: 67, q: "Seorang anak menjadi raja secara otomatis karena ayahnya seorang raja merupakan contoh dari", options: ["ascribed status", "social status", "achieved status", "economic status"], ans: "A", exp: "Ascribed status adalah kedudukan sosial yang diperoleh sejak lahir tanpa usaha khusus." },
+            { id: 68, q: "Definisi ekonomi sebagai studi pemanfaatan keterbatasan sumber daya modal, alam, dan tenaga kerja dikemukakan oleh", options: ["Earl E. Muntz", "Fairchild", "Gerardo P. Sicat", "Brown & Brown"], ans: "C", exp: "Gerardo P. Sicat merumuskan definisi ekonomi berdasarkan kelangkaan dan pemanfaatan sumber daya." },
+            { id: 69, q: "Ekonomi adalah studi tentang cara manusia mengorganisasikan sumber daya alam, budaya, dan tenaga kerja untuk kesejahteraan material. Menurut", options: ["Earl E. Muntz", "Brown & Brown", "Gerardo P. Sicat", "H. W. Arndt"], ans: "B", exp: "Pengertian pengorganisasian sumber daya untuk kesejahteraan material dikemukakan oleh Brown & Brown." },
+            { id: 70, q: "Payung sangat berguna saat hujan dan baju hangat pada musim dingin. Hal ini menunjukkan nilai guna barang berdasarkan", options: ["bentuk (form utility)", "tempat (place utility)", "waktu (time utility)", "pemilikan (ownership utility)"], ans: "C", exp: "Kegunaan waktu (time utility) terjadi ketika barang bermanfaat maksimal pada waktu tertentu." },
+            { id: 71, q: "Berikut adalah sifat-sifat kebutuhan ekonomi manusia, KECUALI", options: ["setiap orang kebutuhannya sama di semua kelompok", "tidak sama sepanjang waktu dan antar generasi", "jumlah dan mutunya selalu berkembang", "kebutuhan dapat saling melengkapi atau bertentangan"], ans: "A", exp: "Kebutuhan manusia beranekaragam dan TIDAK pernah sama antar individu maupun kelompok." },
+            { id: 72, q: "Skala prioritas kebutuhan diartikan sebagai", options: ["kebutuhan menurut nilainya", "kebutuhan menurut intensitas", "penghasilan dan pengeluaran", "urutan kebutuhan yang disusun berdasarkan tingkat kepentingannya"], ans: "D", exp: "Skala prioritas mengurutkan pemenuhan kebutuhan dari yang paling mendesak hingga yang bisa ditunda." },
+            { id: 73, q: "Belum maksimalnya peran koperasi di Indonesia sesuai UUD 1945 pasal 33 terutama disebabkan oleh", options: ["kurang perhatian pemerintah", "kesadaran masyarakat dalam berkoperasi masih rendah", "terlalu besar campur tangan pemerintah", "tersaingi oleh badan usaha swasta"], ans: "B", exp: "Faktor internal utama adalah masih rendahnya pemahaman dan kesadaran partisipasi berkoperasi masyarakat." },
+            { id: 74, q: "Jika Anda ingin berinvestasi usaha hanya dengan menyertakan modal tanpa ikut mengelola harian, bentuk usaha yang tepat adalah", options: ["perseroan terbatas (PT)", "koperasi", "firma", "perusahaan perseorangan"], ans: "A", exp: "Pemegang saham PT bertindak sebagai penanam modal dengan tanggung jawab terbatas." },
+            { id: 75, q: "Perusahaan yang bergerak membeli barang dari produsen dan menjualnya kembali ke konsumen tanpa mengubah bentuk barang adalah", options: ["perusahaan ekstraktif", "perusahaan agraris", "perusahaan industri", "perusahaan perdagangan"], ans: "D", exp: "Perusahaan perdagangan berfungsi menyalurkan barang dagangan tanpa mengubah wujud fisik produk." },
+            { id: 76, q: "Proses pemenuhan kebutuhan manusia melalui penyaluran barang dari produsen ke konsumen disebut", options: ["Pendistribusian", "Penimbunan", "Pemindahan", "Pengedaran"], ans: "A", exp: "Distribusi adalah kegiatan menyalurkan barang/jasa hasil produksi kepada konsumen." },
+            { id: 77, q: "Prinsip efektivitas dalam kegiatan ekonomi diarahkan pada upaya", options: ["mengurangi konsumsi berlebihan", "memperoleh hasil setinggi-tingginya", "menguraikan secara tepat pengorbanan dengan hasil yang dicapai", "penghematan biaya produksi murni"], ans: "C", exp: "Efektivitas mengukur sejauh mana pengorbanan yang dikeluarkan sebanding dengan pencapaian hasil." },
+            { id: 78, q: "Pemegang kekuasaan tertinggi dalam tata kelola Koperasi berada pada", options: ["pengurus", "rapat anggota", "badan pemeriksa", "direktur"], ans: "B", exp: "Rapat Anggota merupakan pemegang kekuasaan dan keputusan tertinggi dalam sistem Koperasi." },
+            { id: 79, q: "Seseorang akan mengalami konflik status (status conflict) apabila", options: ["statusnya merupakan pemberian", "statusnya berlebihan", "tidak memiliki status", "memiliki beberapa status yang berbenturan pada saat bersamaan"], ans: "D", exp: "Konflik status timbul ketika tuntutan dari dua atau lebih status yang dimiliki seseorang saling bertentangan." },
+            { id: 80, q: "Berikut ini adalah proses sosial individu sebagai makhluk sosial, KECUALI", options: ["beradaptasi (biologis)", "bersosialisasi", "berinteraksi", "berintegrasi"], ans: "A", exp: "Beradaptasi secara fisiologis/biologis murni bukan merupakan hakekat interaksi sosial sosiologis." },
+            { id: 81, q: "Contoh kelompok sosial yang tidak terorganisir (involuntary/unorganized group) adalah", options: ["negara", "sekolah", "koperasi", "kerumunan (crowd)"], ans: "D", exp: "Kerumunan adalah kumpulan orang yang bersifat sementara dan tidak memiliki struktur organisasi." },
+            { id: 82, q: "Istilah lembaga kemasyarakatan lebih luas dibanding social institution karena mencakup", options: ["kebiasaan dan tata kelakuan", "bentuk dan norma", "norma dan adat istiadat", "bentuk dan tujuan"], ans: "B", exp: "Lembaga kemasyarakatan mencakup bentuk wadah sosiologis sekaligus sistem norma yang mengatur." },
+            { id: 83, q: "Tata kelakuan (mores) yang sifatnya kekal dan menyatu kuat dengan pola perilaku masyarakat mengikat menjadi", options: ["usage (cara)", "folkways (kebiasaan)", "mores (tata kelakuan)", "custom (adat istiadat)"], ans: "D", exp: "Adat istiadat (custom) adalah norma dengan sanksi paling kuat dan integrasi kekal." },
+            { id: 84, q: "Tonnies mengemukakan ciri-ciri paguyuban (Gemeinschaft), KECUALI", options: ["Intimate (mesra/akrab)", "Private (pribadi/khusus)", "Exclusive (terbatas pada kelompok internal)", "Bersifat formal dan instrumental"], ans: "D", exp: "Hubungan formal dan instrumental merupakan ciri Patembayan (Gesellschaft), bukan Paguyuban." },
+            { id: 85, q: "Penyelesaian konflik menggunakan pihak ketiga yang memiliki kewenangan mengikat (status lebih tinggi) disebut", options: ["konsiliasi", "mediasi", "arbitrase", "toleransi"], ans: "C", exp: "Arbitrase melibatkan pihak ketiga (arbitrator) yang memberi keputusan hukum yang wajib dipatuhi." },
+            { id: 86, q: "Interaksi sosial dapat menimbulkan: (1) kerja sama, (2) asimilasi, (3) persaingan. Pernyataan yang benar:", options: ["1 dan 2 benar", "1 dan 3 benar", "1, 2, dan 3 benar", "Hanya 3 benar"], ans: "C", exp: "Interaksi sosial memicu proses asosiatif (kerjasama, asimilasi) maupun disosiatif (persaingan)." },
+            { id: 87, q: "Interaksi sosial mempengaruhi komponen psikologis seperti: (1) pikiran, (2) perasaan, (3) emosi. Jawaban yang benar:", options: ["1 dan 2", "2 dan 3", "1, 2, dan 3 benar", "Hanya 1"], ans: "C", exp: "Interaksi antarindividu mempengaruhi alam pikiran, perasaan empati, dan reaksi emosional." },
+            { id: 88, q: "Lembaga sosial yang ditolak oleh masyarakat (seperti sindikat kejahatan) dinamakan", options: ["social sanctioned institution", "unsanctioned institution", "restricted institution", "operative institution"], ans: "B", exp: "Unsanctioned institution adalah lembaga yang keberadaannya ditolak dan tidak diakui masyarakat." },
+            { id: 89, q: "Sebagian ahli sosiologi menerjemahkan social institution sebagai pranata sosial, lembaga kemasyarakatan, dan", options: ["bangunan sosial", "stratifikasi sosial", "lembaga sosial", "kontrol sosial"], ans: "A", exp: "Istilah 'bangunan sosial' dipakai sebagian sosiolog sebagai padanan social institution." },
+            { id: 90, q: "Lembaga yang sengaja dibentuk untuk mencapai tujuan tertentu (seperti bank, sekolah) disebut", options: ["Crescive Institution", "Enacted Institution", "Basic Institution", "Subsidiary Institution"], ans: "B", exp: "Enacted institution adalah lembaga yang sengaja dibentuk dan dirancang untuk tujuan tertentu." },
+            { id: 91, q: "Anand kasta Sudra berhasil meraih gelar doktor, namun tetap ber-kasta Sudra. Hal ini menunjukkan kasta merupakan", options: ["Ascribed Status", "Achieved Status", "Assigned Status", "Economic Status"], ans: "A", exp: "Kasta ditentukan sejak lahir berdasarkan keturunan (ascribed status) dan tidak bisa diubah oleh prestasi." },
+            { id: 92, q: "Contoh status sosial dalam masyarakat yang bersifat tertutup (closed stratification) adalah gelar", options: ["Presiden", "Raden", "Kepala Sekolah", "Ketua RT"], ans: "B", exp: "Gelar kebangsawan seperti Raden diperoleh berdasarkan keturunan (tertutup)." },
+            { id: 93, q: "Di bawah ini merupakan gelar atau kedudukan yang diperoleh secara tertutup (hereditaris), yaitu", options: ["rektor", "doktor", "raja", "lurah"], ans: "C", exp: "Kedudukan Raja diturunkan secara genealogis (tertutup)." },
+            { id: 94, q: "Penilaian status dari segi subjektif berdasarkan kearifan, usia, dan kecerdasan seseorang dinamakan penilaian atas", options: ["kelahiran", "mutu pribadi", "prestasi murni", "pemilikan harta"], ans: "B", exp: "Mutu pribadi (personal qualities) menilai karakter dan kearifan individu." },
+            { id: 95, q: "Kriteria penilaian status sosial subjektif menurut sosiologi meliputi berikut, KECUALI", options: ["kelahiran", "mutu pribadi", "otoritas", "prestige (gengsi semata)"], ans: "D", exp: "Prestige adalah hasil/dampak penilaian, bukan kriteria objektif/subjektif utamanya." },
+            { id: 96, q: "Berikut kriteria penilaian status subjektif menurut Talcott Parsons, KECUALI", options: ["kelahiran", "mutu pribadi", "interaksi", "otoritas"], ans: "C", exp: "Talcott Parsons menyebutkan kelahiran, mutu pribadi, prestasi, kepemilikan, dan otoritas (bukan interaksi)." },
+            { id: 97, q: "Definisi kebudayaan sebagai ciptaan manusia merubah pemberian Tuhan sesuai kebutuhan jasmani & rohani dikemukakan oleh", options: ["Soekmono", "Selo Soemardjan", "E.B. Tylor", "A.L. Kroeber"], ans: "A", exp: "Rumusan kebudayaan sebagai pengolahan pemberian Tuhan tersebut dikemukakan oleh Dr. Soekmono." },
+            { id: 98, q: "Kebudayaan adalah keseluruhan sistem gagasan, tindakan, dan hasil karya manusia yang dijadikan milik manusia dengan belajar, menurut", options: ["William A. Haviland", "E.B. Tylor", "A.L. Kroeber", "Koentjaraningrat"], ans: "D", exp: "Definisi kebudayaan paling populer di Indonesia ini dirumuskan oleh Prof. Koentjaraningrat." },
+            { id: 99, q: "Kebudayaan sebagai konfigurasi tingkah laku yang dipelajari dan didukung anggota masyarakat tertentu merupakan pandangan", options: ["E.B. Tylor", "A.L. Kroeber", "R. Linton", "Koentjaraningrat"], ans: "C", exp: "Ralph Linton menekankan kebudayaan sebagai konfigurasi tingkah laku yang dipelajari." },
+            { id: 100, q: "Aturan atau keharusan menikah dengan anggota kelompok/kerabat sendiri dinamakan", options: ["endogami", "eksogami", "poligami", "monogami"], ans: "A", exp: "Endogami adalah prinsip perkawinan di dalam lingkungan kelompok atau klan sendiri." },
+            { id: 101, q: "Keberagaman masyarakat berdasarkan perbedaan suku, agama, ras, dan adat istiadat dinamakan kemajemukan secara", options: ["plural murni", "vertikal", "horizontal", "heterogenitas struktural"], ans: "C", exp: "Diferensiasi horizontal mengelompokkan masyarakat berdasarkan suku/agama tanpa tingkatan hierarki." },
+            { id: 102, q: "Secara etimologis antropologi berasal dari kata anthropos dan logos. Kata Anthropos berarti", options: ["kebudayaan", "manusia", "lingkungan", "ilmu"], ans: "B", exp: "Anthropos berarti manusia, dan logos berarti ilmu pengetahuan." },
+            { id: 103, q: "Salah satu fungsi Bahasa Indonesia sebagai bahasa negara menurut UUD 1945 pasal 36 adalah", options: ["perhubungan antar daerah", "alat pengembangan kebudayaan, ilmu pengetahuan dan teknologi", "lambang kebanggaan nasional", "pemersatu suku"], ans: "B", exp: "Bahasa Indonesia berfungsi sebagai sarana pengembangan kebudayaan nasional, IPTEK, dan seni." },
+            { id: 104, q: "Proses akulturasi budaya terjadi apabila", options: ["unsur budaya asli hilang tergerus", "unsur budaya asing diterima tanpa menghilangkan kepribadian budaya sendiri", "budaya lokal menyebar ke luar", "penemuan baru budaya"], ans: "B", exp: "Akulturasi adalah percampuran budaya asing dan lokal tanpa menghilangkan ciri asli budaya penerima." },
+            { id: 105, q: "Definisi akulturasi kebudayaan yang paling tepat adalah", options: ["masuknya budaya asing tanpa kehilangan kepribadian budaya sendiri", "peleburan total dua budaya", "penolakan budaya luar", "asimilasi sempurna"], ans: "A", exp: "Kunci akulturasi adalah tidak hilangnya identitas budaya asli." },
+            { id: 106, q: "Kewajiban negara memajukan kebudayaan nasional Indonesia tercantum dalam UUD 1945 Amandemen pada", options: ["pasal 31 ayat 3", "pasal 31 ayat 4", "pasal 32 ayat 1", "pasal 32 ayat 2"], ans: "C", exp: "Pasal 32 Ayat 1: 'Negara memajukan kebudayaan nasional Indonesia di tengah peradaban dunia...'." },
+            { id: 107, q: "Dua kebudayaan asing yang memberikan pengaruh sangat kuat pada tahap awal sejarah Nusantara adalah", options: ["Australia dan Amerika", "India dan Arab", "Cina dan Inggris", "Belanda dan Jepang"], ans: "B", exp: "Pengaruh Hindu-Buddha (India) dan Islam (Arab/Persia) sangat mendasar dalam pembentukan budaya Nusantara." },
+            { id: 108, q: "Fungsi Bahasa Indonesia sebagai sarana pemersatu bangsa dicetuskan secara historis pada momentum", options: ["Kebangkitan Nasional 1908", "Sumpah Pemuda 28 Oktober 1928", "Proklamasi 1945", "Sidang PPKI 1945"], ans: "B", exp: "Ikrar Sumpah Pemuda 1928 menjunjung bahasa persatuan, bahasa Indonesia." },
+            { id: 109, q: "Menurut teori Stufenbauleh Nawiasky, Pembukaan UUD 1945 dikategorikan sebagai", options: ["staatsfundamentalnorm", "formelle gesetze", "staatsgrundgesetze", "autonome satzungen"], ans: "A", exp: "Pembukaan UUD 1945 memuat Pancasila yang berkedudukan sebagai Staatsfundamentalnorm (norma fundamental negara)." },
+            { id: 110, q: "Penegasan bahwa Indonesia adalah Negara Hukum (Rechtsstaat) diatur secara eksplisit dalam UUD 1945 pasal", options: ["pasal 1 ayat (3)", "pasal 2 ayat (2)", "pasal 4 ayat (1)", "pasal 27 ayat (1)"], ans: "A", exp: "Pasal 1 Ayat (3) UUD 1945 menegaskan: 'Negara Indonesia adalah negara hukum'." },
+            { id: 111, q: "Berikut ini merupakan unsur-unsur negara hukum (rechtsstaat) menurut F.J. Stahl, KECUALI", options: ["jaminan hak asasi manusia", "pembagian/pemisahan kekuasaan", "pemerintahan berdasarkan perundang-undangan", "adanya keputusan raja yang mutlak"], ans: "D", exp: "F.J. Stahl menekankan HAM, trias politika, pemerintahan legalitas, dan peradilan administrasi (bukan keputusan mutlak)." },
+            { id: 112, q: "Asas hukum 'Lex specialis derogat legi generali' memiliki arti", options: ["hukum baru menghapus hukum lama", "peraturan khusus mengesampingkan peraturan umum", "hukum tinggi mengalahkan hukum rendah", "hukum umum mengalahkan hukum khusus"], ans: "B", exp: "Asas ini menetapkan aturan khusus yang diprioritaskan dibanding aturan umum." },
+            { id: 113, q: "Tata urutan peraturan perundang-undangan di Indonesia sebagaimana diatur dalam UU menunjukkan", options: ["urutan kekuatan hukum peraturan perundang-undangan", "sumber hukum internasional", "jenis hukum pidana saja", "sistematika hukum adat"], ans: "A", exp: "Hirarki perundang-undangan menentukan derajat dan kekuatan hukum tiap jenis aturan." },
+            { id: 114, q: "Aturan-aturan dasar negara seperti batang tubuh/pasal-pasal UUD 1945 menurut Nawiasky masuk dalam kelompok", options: ["staatsfundamentalnorm", "staatsgrundgesetze", "formelle gesetze", "verordnungen"], ans: "B", exp: "Batang tubuh UUD tergolong Staatsgrundgesetze (aturan dasar/pokok negara)." },
+            { id: 115, q: "Sistem pemerintahan di mana Presiden tidak bertanggung jawab kepada parlemen melainkan langsung kepada rakyat termasuk prinsip", options: ["cita negara hukum", "sistem pemerintahan Presidensial", "demokrasi langsung", "sistem parlementer"], ans: "B", exp: "Sistem Presidensial menempatkan Presiden sebagai kepala negara sekaligus kepala pemerintahan yang independen dari parlemen." },
+            { id: 116, q: "Penyerahan wewenang pemerintahan oleh pemerintah pusat kepada daerah otonom dinamakan asas", options: ["sentralisasi", "desentralisasi", "dekonsentrasi", "tugas pembantuan"], ans: "B", exp: "Desentralisasi adalah penyerahan wewenang pemerintahan kepada daerah otonom." },
+            { id: 117, q: "Pasal 1 ayat (2) UUD 1945 sebelum amandemen menyatakan bahwa kedaulatan adalah di tangan rakyat dan dilakukan sepenuhnya oleh", options: ["MPR sebagai pelaksana kedaulatan rakyat", "Presiden", "DPR", "MA"], ans: "A", exp: "Sebelum amandemen, rumusan pasal 1 ayat 2 menyatakan kedaulatan dilakukan sepenuhnya oleh MPR." },
+            { id: 118, q: "Berikut ini merupakan tujuan dibentuknya DPD dalam struktur ketatanegaraan RI, KECUALI", options: ["memperkuat ikatan daerah dalam NKRI", "meningkatkan akomodasi aspirasi daerah", "mendorong percepatan pembangunan daerah", "menciptakan keistimewaan daerah agar tidak dikontrol pusat"], ans: "D", exp: "DPD dibentuk untuk memperjuangkan aspirasi daerah dalam koridor NKRI, bukan melepaskan diri dari kontrol pusat." },
+            { id: 119, q: "Kewenangan MPR menurut UUD 1945 amandemen meliputi hal berikut, KECUALI", options: ["mengubah dan menetapkan UUD", "melantik Presiden dan Wakil Presiden", "memberhentikan Presiden dalam masa jabatannya", "membentuk undang-undang"], ans: "D", exp: "Kewenangan membentuk Undang-Undang berada pada DPR bersama Presiden." },
+            { id: 120, q: "Pernyataan yang BUKAN merupakan wewenang Presiden setelah amandemen UUD 1945 adalah", options: ["mengajukan RUU kepada DPR", "memegang kekuasaan pemerintahan", "memegang kekuasaan membentuk UU (tersebut kini di tangan DPR)", "menetapkan Perpu"], ans: "C", exp: "Pasca amandemen, pemegang kekuasaan membentuk UU bergeser dari Presiden ke DPR (Pasal 20 ayat 1)." },
+            { id: 121, q: "Berikut ini yang merupakan hak warga negara dalam bidang hukum (legal rights), KECUALI", options: ["hak membela diri di pengadilan", "hak mendapat bantuan hukum", "hak memilih dan dipilih dalam Pemilu", "hak menghubungi penasihat hukum"], ans: "C", exp: "Hak memilih dan dipilih tergolong Hak Politik (political rights)." },
+            { id: 122, q: "Pasal 28 UUD 1945 tentang kebebasan berserikat dan berkumpul mengandung makna bahwa kebebasan tersebut", options: ["tidak bersifat absolut dan diatur undang-undang", "bebas tanpa batas", "hanya untuk pejabat", "bebas membentuk negara baru"], ans: "A", exp: "Kebebasan berorganisasi dan berpendapat diatur serta dibatasi oleh undang-undang." },
+            { id: 123, q: "Pasal 30 ayat (1) UUD 1945 menegaskan hak dan kewajiban setiap warga negara dalam", options: ["ikut serta dalam usaha pertahanan dan keamanan negara", "mendapat pendidikan", "bekerja", "mengembangkan budaya"], ans: "A", exp: "Pasal 30 ayat (1) mengatur tentang bela negara dan pertahanan keamanan." },
+            { id: 124, q: "Seorang mahasiswa mengidolakan dosennya dan meniru gaya bicaranya saat presentasi. Hal ini contoh dari", options: ["norma kelompok", "afiliasi kelompok", "reference group (kelompok acuan)", "membership group"], ans: "C", exp: "Reference group adalah kelompok/individu yang dijadikan acuan acuan identifikasi diri." },
+            { id: 125, q: "Seseorang yang menuntut pemahaman jelas dan bereaksi keras terhadap informasi yang bertentangan dengan konsepsinya memiliki sifat", options: ["general persuasibility", "self-defensiveness", "cognitive needs and styles", "consonance"], ans: "C", exp: "Kebutuhan dan gaya kognitif (cognitive needs and styles) menentukan cara seseorang memproses informasi baru." },
+            { id: 126, q: "Kesiapan seseorang untuk menerima pengaruh sosial tanpa memedulikan siapa komunikatornya dinamakan", options: ["general persuasibility", "self-defensiveness", "cognitive style", "consonance"], ans: "A", exp: "General persuasibility adalah kecenderungan umum seseorang untuk mudah diyakinkan/dipengaruhi." },
+            { id: 127, q: "Rumor sering kali berubah menjadi gosip di masyarakat disebabkan karena informasinya", options: ["kurang didasarkan pada fakta objektif", "resmi dari pemerintah", "terlalu panjang", "tertulis ilmiah"], ans: "A", exp: "Gosip/rumor berkembang cepat karena ketiadaan verifikasi fakta yang valid." },
+            { id: 128, q: "Setiap organisasi memiliki kemampuan mengontrol anggotanya. Komponen kontrol meliputi berikut, KECUALI", options: ["physical component", "kekuatan ancaman sanksi", "symbolic component", "sosialisasi merupakan proses pemenuhan kebutuhan pribadi murni"], ans: "D", exp: "Pernyataan D bukan merupakan bentuk instrumen pengawasan/kontrol organisasi." },
+            { id: 129, q: "Informasi yang beredar cepat di antara masyarakat tanpa dicek kebenarannya sering dinamakan", options: ["rumor", "public opinion", "crowd", "media massa"], ans: "A", exp: "Rumor adalah kabar burung yang belum terbukti kebenarannya." },
+            { id: 130, q: "Menurut James A. Banks, proses inkuiri sosial merupakan siklus sehingga setelah menarik kesimpulan tahap berikutnya adalah", options: ["menganalisis data", "menguji hipotesis", "memulai inkuiri kembali (re-inquiry)", "menetapkan metode"], ans: "C", exp: "Inkuiri bersifat spiral/siklis; kesimpulan menimbulkan pertanyaan baru untuk inkuiri lanjutan." },
+            { id: 131, q: "Sebagai pendekatan pembelajaran, model inkuiri berpusat pada", options: ["guru (teacher centered)", "siswa (student centered)", "materi teks", "kurikulum murni"], ans: "B", exp: "Inkuiri menempatkan siswa sebagai subjek aktif pencari jawaban (student centered)." },
+            { id: 132, q: "Pernyataan 'Guru yang baik haruslah memiliki metode yang baik, dan guru terbaik ditentukan oleh metode yang dikuasainya' dikemukakan oleh", options: ["John Dewey", "James A. Banks", "Edgar Wesley", "Barry K. Beyer"], ans: "C", exp: "Edgar Bruce Wesley menekankan pentingnya penguasaan metodologi bagi pendidik IPS." },
+            { id: 133, q: "Teknik mengumpulkan ide secara bebas melalui curah pendapat (brainstorming) bertujuan melatih kemampuan berpikir", options: ["kritis", "kreatif", "deduktif", "konvergen"], ans: "B", exp: "Brainstorming merangsang gagasan-gagasan baru beraneka ragam (berpikir kreatif)." },
+            { id: 134, q: "Tahap awal untuk memicu sikap berpikir kritis dengan memunculkan ide-ide baru menurut Savage & Armstrong adalah", options: ["Dunn dan Dunn", "Savage dan Armstrong", "Beyer dan Ennis", "Lipman"], ans: "B", exp: "Savage dan Armstrong merumuskan prasyarat awal pengembangan berpikir kritis siswa." },
+            { id: 135, q: "Curah pendapat (brainstorming) dalam kelas IPS paling tepat dikategorikan untuk melatih berpikir", options: ["kreatif", "kritis", "deduktif", "linear"], ans: "A", exp: "Brainstorming mengasah kelancaran dan keluwesan berpikir kreatif." },
+            { id: 136, q: "Tahap ketiga dalam proses pemecahan masalah (problem solving) menurut Savage dan Armstrong adalah", options: ["mengenal masalah", "mempertimbangkan pendekatan", "memilih dan menerapkan pendekatan pemecahan", "mencapai solusi"], ans: "C", exp: "Tahap 3 problem solving Savage & Armstrong: Pemilihan dan penerapan strategi pemecahan masalah." },
+            { id: 137, q: "Istilah 'problem solving' sebagai model pembelajaran dalam IPS pada dasarnya berorientasi pada", options: ["prosedur guru mengajar", "peningkatan nilai tes", "model metode mengajar pemecahan masalah", "penulisan makalah"], ans: "C", exp: "Problem solving adalah model pembelajaran berbasis analisis pemecahan masalah nyata." },
+            { id: 138, q: "Tahap akhir dalam model pembelajaran problem solving menurut Wilkins adalah", options: ["tindak lanjut (follow-up)", "memilih solusi", "menguji alternatif", "bertindak"], ans: "A", exp: "Tahap penutup model Wilkins ditandai dengan evaluasi dan tindak lanjut (follow-up)." },
+            { id: 139, q: "Tujuan pembelajaran inkuiri sosial adalah menghasilkan produk pengetahuan berikut, KECUALI", options: ["fakta", "konsep", "teori", "data mentah tanpa olahan"], ans: "D", exp: "Data mentah adalah bahan mentah inkuiri, sedangkan hasilnya berupa fakta teruji, konsep, dan teori." },
+            { id: 140, q: "Tahap pertama dalam proses pembelajaran pengambilan keputusan (decision making) menurut Savage & Armstrong adalah", options: ["mengemukakan alternatif", "mengidentifikasi persoalan dasar/masalah", "mengumpulkan bukti", "menilai alternatif"], ans: "B", exp: "Langkah awal selalu dimulai dari pengidentifikasian isu atau persoalan dasar." },
+            { id: 141, q: "Konsep pengambilan keputusan berkaitan dengan kemampuan berikut, KECUALI", options: ["menimbang fakta", "memilih alternatif", "memilih masalah kemasyarakatan", "mempertimbangkan nilai pribadi & masyarakat"], ans: "C", exp: "Pengambilan keputusan fokus pada penentuan pilihan aksi, bukan sekadar memilih topik masalah." },
+            { id: 142, q: "'Seeing things clearly' (melihat persoalan secara jernih dan objektif) merupakan ciri keterampilan berpikir", options: ["analitis", "kreatif", "kritis", "ilmiah"], ans: "C", exp: "Berpikir kritis membutuhkan kejelasan persepsi (seeing things clearly) tanpa prasangka." },
+            { id: 143, q: "Perkembangan anak dari tahap praoperasional menuju operasional konkret (Piaget) termasuk dalam domain perkembangan", options: ["fisik motorik", "psikososial", "kognitif bahasa", "emosional"], ans: "C", exp: "Tahapan operasional Piaget adalah bagian utama dari teori perkembangan kognitif." },
+            { id: 144, q: "Kemampuan melihat masalah secara jelas dan tidak bias (Seeing things clearly) termasuk keterampilan", options: ["kritis", "analitis", "kreatif", "spekulatif"], ans: "A", exp: "Merupakan fondasi utama kemampuan berpikir kritis (critical thinking)." },
+            { id: 145, q: "Mengidentifikasi masalah merupakan langkah paling awal dalam penerapan model pembelajaran", options: ["diskusi kelompok", "penyelidikan", "pemecahan masalah (problem solving)", "kerja kelompok"], ans: "C", exp: "Sintaks utama problem solving diawali dengan identifikasi masalah." },
+            { id: 146, q: "Faktor-faktor yang mempengaruhi ketercapaian pengembangan keterampilan dasar IPS meliputi berikut, KECUALI", options: ["kebermaknaan", "penguatan (reinforcement)", "umpan balik yang terlambat", "pengulangan (practice)"], ans: "C", exp: "Umpan balik yang lambat justru menghambat pembelajaran." },
+            { id: 147, q: "Agar kegiatan diskusi di kelas IPS berlangsung menyenangkan, kondisi berikut harus dipenuhi, KECUALI", options: ["memberi kesempatan siswa memecahkan masalah secara individual murni tanpa interaksi", "mengadakan pemahaman bersama", "membantu memahami informasi baru", "mengidentifikasi berbagai opini"], ans: "A", exp: "Diskusi mensyaratkan kerja sama dan interaksi kelompok, bukan pengerjaan individual terisolasi." },
+            { id: 148, q: "Jika masalah banjir dianalisis dari faktor sosial budaya, kondisi alam, dan kepatuhan aturan, maka menerapkan model", options: ["Jejaring berdasarkan masalah", "Keterhubungan berdasarkan masalah", "Integrasi berdasarkan permasalahan", "Integrasi potensi"], ans: "C", exp: "Model integrasi berdasarkan permasalahan membahas satu isu utama dari berbagai perspektif disiplin ilmu." },
+            { id: 149, q: "Model pembelajaran terpadu yang memadukan topik-topik antar mata pelajaran berbeda secara paralel waktu disebut model", options: ["fragmented", "connected", "nested", "sequenced"], ans: "D", exp: "Model Sequenced menyelaraskan urutan topik yang relevan antar dua mata pelajaran secara sejajar." },
+            { id: 150, q: "Model pembelajaran terpadu yang menghubungkan butir-butir pembelajaran pada satu induk mata pelajaran dinamakan model", options: ["fragmented", "connected", "nested", "sequenced"], ans: "B", exp: "Model Connected menghubungkan konsep-konsep yang berkaitan dalam satu rumpun bidang studi." }
+        ];
+
+        // Quiz State Variables
+        let quizData = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {}; // { qIndex: 'A' | 'B' | 'C' | 'D' }
+        let checkedAnswers = {}; // { qIndex: true }
+        let flaggedQuestions = {}; // { qIndex: true }
+        let timerInterval = null;
+        let timeRemaining = 0; // seconds
+        let totalTimeSpent = 0; // seconds
+
+        // Initialize Theme & Icons on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initTheme();
+        });
+
+        // Theme Switcher Logic
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon-sun').classList.remove('hidden');
+                document.getElementById('theme-icon-moon').classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-icon-sun').classList.add('hidden');
+                document.getElementById('theme-icon-moon').classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            playSound('click');
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                document.getElementById('theme-icon-sun').classList.add('hidden');
+                document.getElementById('theme-icon-moon').classList.remove('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('theme-icon-sun').classList.remove('hidden');
+                document.getElementById('theme-icon-moon').classList.add('hidden');
+            }
+        }
+
+        // Start Quiz Function
+        function startQuiz() {
+            playSound('click');
+            const isShuffle = document.querySelector('input[name="shuffle-opt"]:checked').value === 'true';
+            const timerVal = document.getElementById('timer-option').value;
+
+            // Deep clone questions
+            quizData = JSON.parse(JSON.stringify(originalQuizData));
+
+            if (isShuffle) {
+                // Fisher-Yates Shuffle
+                for (let i = quizData.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [quizData[i], quizData[j]] = [quizData[j], quizData[i]];
+                }
+            }
+
+            // Reset States
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            checkedAnswers = {};
+            flaggedQuestions = {};
+            totalTimeSpent = 0;
+
+            // Setup Screens
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('quiz-screen').classList.add('flex');
+            document.getElementById('header-quiz-controls').classList.remove('hidden');
+
+            // Setup Timer
+            if (timerVal !== 'none') {
+                timeRemaining = parseInt(timerVal) * 60;
+                document.getElementById('timer-badge').classList.remove('hidden');
+                startTimer();
+            } else {
+                document.getElementById('timer-badge').classList.add('hidden');
+            }
+
+            renderQuestion();
+            renderGridDrawer();
+        }
+
+        // Timer Logic
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                totalTimeSpent++;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Waktu pengerjaan kuis telah habis!");
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const displayStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const timerEl = document.getElementById('timer-display');
+            const timerBadge = document.getElementById('timer-badge');
+
+            timerEl.textContent = displayStr;
+
+            // Warning visual if time < 5 mins
+            if (timeRemaining < 300) {
+                timerBadge.classList.add('bg-rose-100', 'text-rose-600', 'dark:bg-rose-950', 'dark:text-rose-400', 'animate-pulse');
+            } else {
+                timerBadge.classList.remove('bg-rose-100', 'text-rose-600', 'dark:bg-rose-950', 'dark:text-rose-400', 'animate-pulse');
+            }
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const q = quizData[currentQuestionIndex];
+            document.getElementById('current-q-num').textContent = currentQuestionIndex + 1;
+            document.getElementById('q-card-num').textContent = currentQuestionIndex + 1;
+            document.getElementById('question-text').textContent = `${q.id}. ${q.q}`;
+
+            // Update Progress Bar
+            const percent = Math.round(((currentQuestionIndex + 1) / quizData.length) * 100);
+            document.getElementById('progress-bar-inner').style.width = `${percent}%`;
+            document.getElementById('progress-percentage').textContent = `${percent}%`;
+
+            // Flag state
+            const flagBtn = document.getElementById('flag-btn');
+            if (flaggedQuestions[currentQuestionIndex]) {
+                flagBtn.classList.add('text-amber-500', 'fill-amber-500');
+            } else {
+                flagBtn.classList.remove('text-amber-500', 'fill-amber-500');
+            }
+
+            // Options Rendering
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, optIdx) => {
+                const letter = labels[optIdx];
+                const isSelected = userAnswers[currentQuestionIndex] === letter;
+
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-2xl border transition-all flex items-start gap-3 text-xs sm:text-sm font-medium ${
+                    isSelected 
+                    ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-500 dark:border-indigo-500 text-indigo-900 dark:text-indigo-100 shadow-sm' 
+                    : 'bg-slate-50 dark:bg-slate-700/40 border-slate-200 dark:border-slate-600/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200'
+                }`;
+
+                btn.onclick = () => selectOption(letter);
+
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 ${
+                        isSelected 
+                        ? 'bg-indigo-600 text-white' 
+                        : 'bg-white dark:bg-slate-800 text-slate-500 border border-slate-300 dark:border-slate-600'
+                    }">${letter}</span>
+                    <span class="mt-0.5 leading-relaxed">${optText}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Update Nav Buttons State
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.innerHTML = `<span>Selesai Kuis</span><i data-lucide="check" class="w-4 h-4"></i>`;
+                nextBtn.className = "flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-2xl text-xs sm:text-sm shadow-md shadow-emerald-200 dark:shadow-none transition";
+            } else {
+                nextBtn.innerHTML = `<span>Selanjutnya</span><i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+                nextBtn.className = "flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-2xl text-xs sm:text-sm shadow-md shadow-indigo-200 dark:shadow-none transition";
+            }
+
+            // Explanation box state
+            const expBox = document.getElementById('explanation-box');
+            if (checkedAnswers[currentQuestionIndex]) {
+                showExplanationBox();
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            updateAnsweredBadge();
+            lucide.createIcons();
+        }
+
+        function selectOption(letter) {
+            playSound('click');
+            userAnswers[currentQuestionIndex] = letter;
+            renderQuestion();
+            updateGridButton(currentQuestionIndex);
+        }
+
+        function toggleFlag() {
+            playSound('click');
+            flaggedQuestions[currentQuestionIndex] = !flaggedQuestions[currentQuestionIndex];
+            renderQuestion();
+            updateGridButton(currentQuestionIndex);
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                playSound('click');
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                playSound('click');
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                confirmFinishQuiz();
+            }
+        }
+
+        // Check Current Answer Feedback
+        function checkCurrentAnswer() {
+            const userAns = userAnswers[currentQuestionIndex];
+            if (!userAns) {
+                alert("Silakan pilih salah satu jawaban (A, B, C, atau D) terlebih dahulu!");
+                return;
+            }
+
+            checkedAnswers[currentQuestionIndex] = true;
+            const q = quizData[currentQuestionIndex];
+
+            if (userAns === q.ans) {
+                playSound('correct');
+            } else {
+                playSound('wrong');
+            }
+
+            showExplanationBox();
+            updateGridButton(currentQuestionIndex);
+        }
+
+        function showExplanationBox() {
+            const q = quizData[currentQuestionIndex];
+            const userAns = userAnswers[currentQuestionIndex];
+            const isCorrect = userAns === q.ans;
+
+            const expBox = document.getElementById('explanation-box');
+            const expTitle = document.getElementById('exp-title');
+            const expIcon = document.getElementById('exp-icon');
+            const expStatusText = document.getElementById('exp-status-text');
+            const expBody = document.getElementById('exp-body');
+
+            expBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                expBox.className = "mt-6 p-4 rounded-2xl border bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/60 animate-fade-in";
+                expTitle.className = "flex items-center gap-2 font-bold text-sm mb-1 text-emerald-700 dark:text-emerald-400";
+                expIcon.setAttribute('data-lucide', 'check-circle-2');
+                expStatusText.textContent = "Jawaban Anda Benar! (Kunci: " + q.ans + ")";
+            } else {
+                expBox.className = "mt-6 p-4 rounded-2xl border bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800/60 animate-fade-in";
+                expTitle.className = "flex items-center gap-2 font-bold text-sm mb-1 text-rose-700 dark:text-rose-400";
+                expIcon.setAttribute('data-lucide', 'x-circle');
+                expStatusText.textContent = `Jawaban Anda Salah (Pilihan Anda: ${userAns || '-'}, Kunci: ${q.ans})`;
+            }
+
+            expBody.textContent = q.exp;
+            lucide.createIcons();
+        }
+
+        // Drawer Grid Navigation
+        function toggleDrawer() {
+            playSound('click');
+            const drawer = document.getElementById('grid-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function renderGridDrawer() {
+            const container = document.getElementById('grid-numbers-container');
+            container.innerHTML = '';
+
+            quizData.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${idx}`;
+                btn.onclick = () => {
+                    currentQuestionIndex = idx;
+                    renderQuestion();
+                    toggleDrawer();
+                };
+                container.appendChild(btn);
+                updateGridButton(idx);
+            });
+        }
+
+        function updateGridButton(idx) {
+            const btn = document.getElementById(`grid-btn-${idx}`);
+            if (!btn) return;
+
+            const isAnswered = !!userAnswers[idx];
+            const isChecked = !!checkedAnswers[idx];
+            const isCorrect = userAnswers[idx] === quizData[idx].ans;
+            const isCurrent = idx === currentQuestionIndex;
+
+            let bgClass = "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300";
+
+            if (isChecked) {
+                bgClass = isCorrect ? "bg-emerald-500 text-white" : "bg-rose-500 text-white";
+            } else if (isAnswered) {
+                bgClass = "bg-indigo-600 text-white";
+            }
+
+            btn.className = `h-10 rounded-xl font-bold text-xs flex items-center justify-center transition relative ${bgClass} ${
+                isCurrent ? 'ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-slate-800' : ''
+            }`;
+            
+            btn.innerHTML = `
+                ${idx + 1}
+                ${flaggedQuestions[idx] ? '<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-400"></span>' : ''}
+            `;
+        }
+
+        function updateAnsweredBadge() {
+            const count = Object.keys(userAnswers).length;
+            document.getElementById('answered-badge').textContent = `${count}/${quizData.length}`;
+        }
+
+        // Finish & Evaluation
+        function confirmFinishQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = quizData.length;
+            if (answeredCount < total) {
+                if (!confirm(`Anda baru menjawab ${answeredCount} dari ${total} soal. Yakin ingin mengakhiri kuis sekarang?`)) {
+                    return;
+                }
+            } else {
+                if (!confirm("Apakah Anda yakin ingin menyelesaikan kuis dan melihat hasil nilai?")) {
+                    return;
+                }
+            }
+            finishQuiz();
+        }
+
+        function finishQuiz() {
+            playSound('click');
+            clearInterval(timerInterval);
+
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+
+            quizData.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                if (!userAns) {
+                    unansweredCount++;
+                } else if (userAns === q.ans) {
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+            });
+
+            const scorePercent = Math.round((correctCount / quizData.length) * 100);
+            const isPassed = scorePercent >= 70;
+
+            // Render Results
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('header-quiz-controls').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('result-screen').classList.add('flex');
+
+            const badgeContainer = document.getElementById('result-badge-container');
+            const statusIcon = document.getElementById('result-status-icon');
+            const statusTitle = document.getElementById('result-status-title');
+            const statusSubtitle = document.getElementById('result-status-subtitle');
+
+            if (isPassed) {
+                badgeContainer.className = "w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400";
+                statusIcon.setAttribute('data-lucide', 'trophy');
+                statusTitle.textContent = "Selamat, Anda Lulus!";
+                statusTitle.className = "text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mb-1";
+                statusSubtitle.textContent = "Anda berhasil menguasai materi Konsep Dasar IPS dengan sangat baik.";
+            } else {
+                badgeContainer.className = "w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400";
+                statusIcon.setAttribute('data-lucide', 'alert-triangle');
+                statusTitle.textContent = "Belum Lulus Kuis";
+                statusTitle.className = "text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 mb-1";
+                statusSubtitle.textContent = "Jangan berkecil hati, pelajari kembali pembahasannya dan coba lagi!";
+            }
+
+            document.getElementById('final-score').textContent = scorePercent;
+            document.getElementById('stat-correct').textContent = correctCount;
+            document.getElementById('stat-wrong').textContent = wrongCount;
+            document.getElementById('stat-unanswered').textContent = unansweredCount;
+
+            // Format spent time
+            const mins = Math.floor(totalTimeSpent / 60);
+            const secs = totalTimeSpent % 60;
+            document.getElementById('stat-time').textContent = `${mins}m ${secs}s`;
+
+            renderReviewList();
+            lucide.createIcons();
+        }
+
+        // Render Full Review List (150 Questions)
+        function renderReviewList() {
+            const container = document.getElementById('review-list-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.ans;
+                const isUnanswered = !userAns;
+
+                const item = document.createElement('div');
+                item.className = `p-4 sm:p-5 rounded-2xl border text-left ${
+                    isCorrect 
+                    ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40' 
+                    : isUnanswered 
+                    ? 'bg-slate-100/60 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700' 
+                    : 'bg-rose-50/50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/40'
+                }`;
+
+                item.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <span class="font-bold text-xs px-2.5 py-1 rounded-lg ${
+                            isCorrect 
+                            ? 'bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300' 
+                            : isUnanswered 
+                            ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-300' 
+                            : 'bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300'
+                        }">Soal #${idx + 1} (${isCorrect ? 'Benar' : isUnanswered ? 'Tidak Diisi' : 'Salah'})</span>
+                    </div>
+                    <p class="font-bold text-slate-900 dark:text-white text-sm mb-3">${q.id}. ${q.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-3">
+                        <div class="p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <span class="text-slate-400">Jawaban Anda:</span>
+                            <span class="font-bold ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}">${userAns ? `${userAns}` : 'Kosong'}</span>
+                        </div>
+                        <div class="p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                            <span class="text-slate-400">Kunci Jawaban Resmi:</span>
+                            <span class="font-bold text-emerald-600">${q.ans}</span>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-800/70 p-3 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
+                        <strong>Pembahasan:</strong> ${q.exp}
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function toggleReviewSection() {
+            playSound('click');
+            const reviewSec = document.getElementById('review-section');
+            reviewSec.classList.toggle('hidden');
+        }
+
+        // Reset Quiz to Start
+        function resetQuiz() {
+            playSound('click');
+            clearInterval(timerInterval);
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('header-quiz-controls').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
